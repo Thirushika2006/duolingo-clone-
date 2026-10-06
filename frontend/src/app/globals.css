@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode (default v4 uses prefers-color-scheme). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ----------------------------------------------------------------------- */
+/* Duolingo design tokens — exposed as Tailwind utilities (bg-feather, etc) */
+/* ----------------------------------------------------------------------- */
+@theme {
+  --font-display: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+
+  --color-feather: #58cc02; /* primary green */
+  --color-feather-dark: #58a700; /* pressed green */
+  --color-grass: #89e219;
+  --color-macaw: #1cb0f6; /* blue */
+  --color-macaw-dark: #1899d6;
+  --color-cardinal: #ff4b4b; /* red / wrong / hearts */
+  --color-cardinal-dark: #ea2b2b;
+  --color-bee: #ffc800; /* yellow / xp */
+  --color-bee-dark: #e5a100;
+  --color-fox: #ff9600; /* orange / streak */
+  --color-beetle: #ce82ff; /* purple */
+  --color-beetle-dark: #a568cc;
+  --color-humpback: #2b70c9;
+
+  --color-swan: #e5e5e5; /* borders */
+  --color-hare: #afafaf;
+  --color-wolf: #777777; /* muted text */
+  --color-eel: #4b4b4b; /* body text */
+  --color-polar: #f7f7f7; /* page bg */
+  --color-snow: #ffffff;
+}
+
+/* Dark-mode surface variables consumed by the .surface / .text-body helpers. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-page: #ffffff;
+  --bg-card: #ffffff;
+  --border-card: #e5e5e5;
+  --text-body: #4b4b4b;
+  --text-muted: #777777;
+}
+.dark {
+  --bg-page: #131f24;
+  --bg-card: #1b2b33;
+  --border-card: #37464f;
+  --text-body: #f1f7fb;
+  --text-muted: #8fa4ae;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html,
+body {
+  height: 100%;
+}
+body {
+  background: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ----------------------------------------------------------------------- */
+/* Reusable component utilities                                            */
+/* ----------------------------------------------------------------------- */
+@layer components {
+  /* Themeable surfaces so pages work in light + dark without per-element flags. */
+  .surface {
+    background: var(--bg-card);
+    border-color: var(--border-card);
+  }
+  .page-bg {
+    background: var(--bg-page);
+  }
+  .text-body {
+    color: var(--text-body);
+  }
+  .text-muted {
+    color: var(--text-muted);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Hide scrollbars on the path scroll area but keep scrolling. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-pop-in {
+  animation: pop-in 0.2s ease-out;
 }

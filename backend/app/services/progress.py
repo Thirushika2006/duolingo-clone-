@@ -109,6 +109,14 @@ def build_path(db: Session, user: User) -> dict:
 
     def skill_out(skill: Skill) -> dict:
         prog = progress.get(skill.id)
+        done = prog.lessons_completed if prog else 0
+        ordered_lessons = sorted(skill.lessons, key=lambda l: l.order_index)
+        # Next incomplete lesson; once the skill is finished, tapping re-practices
+        # the first lesson.
+        if done < len(ordered_lessons):
+            next_lesson = ordered_lessons[done]
+        else:
+            next_lesson = ordered_lessons[0] if ordered_lessons else None
         return {
             "id": skill.id,
             "title": skill.title,
@@ -116,9 +124,10 @@ def build_path(db: Session, user: User) -> dict:
             "order_index": skill.order_index,
             "crown_level": prog.crown_level if prog else 0,
             "total_lessons": len(skill.lessons),
-            "lessons_completed": prog.lessons_completed if prog else 0,
+            "lessons_completed": done,
             "state": skill_state[skill.id],
             "is_active": skill.id == active_id,
+            "next_lesson_id": next_lesson.id if next_lesson else None,
         }
 
     return {

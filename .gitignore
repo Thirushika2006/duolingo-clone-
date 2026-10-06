@@ -33,3 +33,4 @@ Thumbs.db
 
 # backend runtime logs
 backend/*.log
+frontend/dev.log

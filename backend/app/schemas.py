@@ -39,6 +39,7 @@ class SkillOut(BaseModel):
     lessons_completed: int
     state: Literal["locked", "available", "completed"]
     is_active: bool  # the single node the start-popover attaches to
+    next_lesson_id: int | None  # lesson to launch when the node is tapped
 
 
 class UnitOut(BaseModel):
