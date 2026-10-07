@@ -68,18 +68,22 @@ export default function LearnPage() {
         >
           <UnitDivider label={unit.title} />
           <div className="relative flex flex-col items-center gap-6 py-2">
-            {/* Mascot + buzzing bees beside the path (original art, not Duo). */}
-            {unitIndex === 0 && (
-              <div className="absolute right-0 sm:right-2 top-[140px] flex flex-col items-center pointer-events-none">
-                <Bee size={24} className="self-start ml-2 mb-1" drift={14} />
-                <Mascot size={96} animated />
-                <span
-                  className="w-20 h-5 -mt-3 rounded-[50%]"
-                  style={{ background: "var(--node-base)" }}
-                />
-                <Bee size={18} className="self-end mr-2 -mt-10" drift={8} />
-              </div>
-            )}
+            {/* Original mascot + buzzing bees beside the path, alternating
+                sides per unit (our own character — not Duolingo's artwork). */}
+            <div
+              className={[
+                "absolute top-[150px] flex flex-col items-center pointer-events-none",
+                unitIndex % 2 === 0 ? "right-0 sm:right-2" : "left-0 sm:left-2",
+              ].join(" ")}
+            >
+              <Bee size={24} className="self-start ml-2 mb-1" drift={14} />
+              <Mascot size={96} animated />
+              <span
+                className="w-20 h-5 -mt-3 rounded-[50%]"
+                style={{ background: "var(--node-base)" }}
+              />
+              <Bee size={18} className="self-end mr-2 -mt-10" drift={8} />
+            </div>
             {unit.skills.map((skill, i) => (
               <SkillNode
                 key={skill.id}

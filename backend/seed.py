@@ -250,6 +250,62 @@ COURSE_CONTENT = {
                         ],
                     ],
                 },
+                {
+                    "title": "Numbers", "icon": "star",
+                    "lessons": [
+                        [
+                            mc("Which one is “three”?",
+                               ["tres", "dos", "uno", "cuatro"], 0),
+                            match("Tap the matching pairs", [
+                                {"left": "uno", "right": "one"},
+                                {"left": "dos", "right": "two"},
+                                {"left": "tres", "right": "three"},
+                                {"left": "cuatro", "right": "four"},
+                            ]),
+                            translate("Translate: “one apple”",
+                                      ["una", "manzana", "dos", "pan"],
+                                      ["una", "manzana"]),
+                            type_answer("Translate: “five”", "cinco", ["cinco"]),
+                        ],
+                    ],
+                },
+                {
+                    "title": "Weather", "icon": "star",
+                    "lessons": [
+                        [
+                            mc("Which one is “the sun”?",
+                               ["el sol", "la lluvia", "el viento", "la nube"], 0),
+                            fill_blank("Complete the sentence",
+                                       "Hace ___ hoy.", "sol",
+                                       ["sol", "lluvia", "frío"]),
+                            translate("Translate: “It is cold”",
+                                      ["Hace", "frío", "calor", "sol"],
+                                      ["Hace", "frío"]),
+                            type_answer("Translate: “the rain”", "la lluvia",
+                                        ["la lluvia", "lluvia"]),
+                        ],
+                    ],
+                },
+                {
+                    "title": "The house", "icon": "star",
+                    "lessons": [
+                        [
+                            mc("Which one is “the house”?",
+                               ["la casa", "la mesa", "la puerta", "la silla"], 0),
+                            match("Tap the matching pairs", [
+                                {"left": "casa", "right": "house"},
+                                {"left": "mesa", "right": "table"},
+                                {"left": "puerta", "right": "door"},
+                                {"left": "silla", "right": "chair"},
+                            ]),
+                            fill_blank("Complete the sentence",
+                                       "La ___ es grande.", "casa",
+                                       ["casa", "mesa", "puerta"]),
+                            type_answer("Translate: “the table”", "la mesa",
+                                        ["la mesa", "mesa"]),
+                        ],
+                    ],
+                },
             ],
         },
     ],
