@@ -87,7 +87,7 @@ function MoreMenu({ active }: { active: boolean }) {
   };
 
   return (
-    <div className="relative mt-auto">
+    <div className="relative">
       <button onClick={() => setOpen((o) => !o)} className={navClass(active || open)}>
         <span className="text-xl">•••</span>
         More
@@ -101,7 +101,7 @@ function MoreMenu({ active }: { active: boolean }) {
               initial={{ opacity: 0, x: -8, scale: 0.97 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
-              className="absolute bottom-0 left-full ml-2 w-64 surface border rounded-2xl shadow-xl z-40 overflow-hidden"
+              className="absolute top-0 left-full ml-2 w-64 surface border rounded-2xl shadow-xl z-40 overflow-hidden"
             >
               <div className="p-2 border-b border-[var(--border-card)]">
                 <MenuRow glyph="🧪" label="Language Test" onClick={soon("Language Test")} />
