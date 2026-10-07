@@ -1,0 +1,18 @@
+# Render blueprint for the FastAPI backend.
+# Render auto-detects this file; the frontend is deployed separately on Vercel.
+services:
+  - type: web
+    name: duolingo-clone-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      # Python 3.14 is too new for most hosts; pin a widely-supported version.
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      # Set this to your Vercel URL after the frontend deploys, e.g.
+      # https://duolingo-clone.vercel.app  (comma-separate multiple origins)
+      - key: ALLOWED_ORIGINS
+        sync: false
