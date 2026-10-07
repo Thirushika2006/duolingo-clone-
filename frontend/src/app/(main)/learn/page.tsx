@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { usePath } from "@/lib/hooks";
 import { UnitHeader } from "@/components/path/UnitHeader";
 import { UnitDivider } from "@/components/path/UnitDivider";
@@ -10,6 +11,25 @@ import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 export default function LearnPage() {
   const { data, isLoading, isError } = usePath();
+  const [activeUnit, setActiveUnit] = useState(0);
+  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
+
+  // A single sticky header updates to the unit currently scrolled into view
+  // (Duolingo uses one header card that changes title + color, not one per unit).
+  useEffect(() => {
+    if (!data) return;
+    const onScroll = () => {
+      const line = 180; // just below the sticky header band
+      let active = 0;
+      sectionsRef.current.forEach((el, i) => {
+        if (el && el.getBoundingClientRect().top <= line) active = i;
+      });
+      setActiveUnit(active);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [data]);
 
   if (isLoading)
     return (
@@ -29,11 +49,23 @@ export default function LearnPage() {
       </div>
     );
 
+  const current = data.units[Math.min(activeUnit, data.units.length - 1)];
+
   return (
-    <div className="max-w-xl mx-auto flex flex-col gap-10 pt-2">
+    <div className="max-w-xl mx-auto flex flex-col pt-2">
+      {/* Single sticky unit header — updates as you scroll. */}
+      <div className="sticky top-[60px] z-20 pt-1 pb-3 page-bg">
+        <UnitHeader unit={current} />
+      </div>
+
       {data.units.map((unit, unitIndex) => (
-        <section key={unit.id} className="flex flex-col gap-6">
-          <UnitHeader unit={unit} />
+        <section
+          key={unit.id}
+          ref={(el) => {
+            sectionsRef.current[unitIndex] = el;
+          }}
+          className="flex flex-col gap-6 pt-2 pb-8"
+        >
           <UnitDivider label={unit.title} />
           <div className="relative flex flex-col items-center gap-6 py-2">
             {/* Mascot + buzzing bees beside the path (original art, not Duo). */}

@@ -8,7 +8,7 @@ export function UnitHeader({ unit }: { unit: Unit }) {
   // A darker shade of the unit color for the guidebook button's 3D edge.
   return (
     <div
-      className="flex items-center justify-between rounded-2xl px-5 py-4 text-white"
+      className="flex items-center justify-between rounded-2xl px-5 py-4 text-white shadow-[0_4px_0_rgba(0,0,0,0.12)] transition-colors duration-300"
       style={{ background: unit.color }}
     >
       <div className="flex items-center gap-3 min-w-0">
