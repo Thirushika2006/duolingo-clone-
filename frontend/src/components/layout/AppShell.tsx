@@ -29,8 +29,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
           <div className="flex gap-8 items-start">
             <main className="flex-1 min-w-0">{children}</main>
-            {/* Sticky right rail: stays pinned while the path scrolls, like Duolingo. */}
-            <div className="hidden xl:block w-96 shrink-0 self-start sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar py-2">
+            {/* Right rail scrolls with the page, then sticks once its end is
+                reached (so the footer is reachable) while the path keeps going.
+                The negative-ish sticky top = viewport height minus the rail's
+                approximate height produces exactly that behaviour. */}
+            <div className="hidden xl:block w-[26rem] shrink-0 self-start sticky top-[calc(100vh-46rem)] py-2">
               {data && <RightRail user={data.user} />}
             </div>
           </div>
