@@ -20,15 +20,15 @@ export function RightRail({ user }: { user: UserStats }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Super promo */}
-      <section className="surface border rounded-2xl p-4 relative overflow-hidden">
+      <section className="surface border rounded-2xl p-5 relative overflow-hidden">
         <span className="inline-block text-xs font-extrabold uppercase italic text-white px-2 py-0.5 rounded-md bg-gradient-to-r from-macaw to-beetle">
           Super
         </span>
         <div className="absolute top-2 right-2 opacity-90">
-          <Mascot size={56} animated />
+          <Mascot size={60} animated />
         </div>
-        <p className="font-extrabold text-body mt-2">Try Super for free</p>
-        <p className="text-sm text-muted my-1 pr-14">
+        <p className="text-lg font-extrabold text-body mt-2">Try Super for free</p>
+        <p className="text-[15px] text-muted my-1 pr-14">
           No ads, personalized practice, and unlimited Legendary!
         </p>
         <Button
@@ -44,19 +44,19 @@ export function RightRail({ user }: { user: UserStats }) {
       {/* Leaderboards */}
       <Link
         href="/leaderboard"
-        className="surface border rounded-2xl p-4 flex items-center gap-4 hover:brightness-95 transition"
+        className="surface border rounded-2xl p-5 flex items-center gap-4 hover:brightness-95 transition"
       >
-        <ShieldIcon width={44} height={44} />
+        <ShieldIcon width={48} height={48} />
         <div>
-          <p className="font-extrabold text-body">Leaderboards</p>
-          <p className="text-sm text-muted">See this week&apos;s standings</p>
+          <p className="text-lg font-extrabold text-body">Leaderboards</p>
+          <p className="text-[15px] text-muted">See this week&apos;s standings</p>
         </div>
       </Link>
 
       {/* Daily Quests (doubles as the daily-goal indicator) */}
-      <section className="surface border rounded-2xl p-4">
+      <section className="surface border rounded-2xl p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-extrabold text-body">Daily Quests</h3>
+          <h3 className="text-lg font-extrabold text-body">Daily Quests</h3>
           <Link href="/quests" className="text-macaw font-extrabold text-sm uppercase">
             View all
           </Link>

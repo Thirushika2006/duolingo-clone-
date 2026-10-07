@@ -57,10 +57,15 @@ html,
 body {
   height: 100%;
 }
+/* Slightly larger base so text/cards read at Duolingo's roomier scale. */
+html {
+  font-size: 17px;
+}
 body {
   background: var(--bg-page);
   color: var(--text-body);
   font-family: var(--font-display);
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
 }
 

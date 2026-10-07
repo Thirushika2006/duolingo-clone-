@@ -24,7 +24,7 @@ export function Sidebar() {
   return (
     <>
       {/* Desktop: fixed left rail */}
-      <aside className="hidden lg:flex flex-col gap-2 fixed top-0 left-0 h-full w-60 border-r surface px-4 py-6">
+      <aside className="hidden lg:flex flex-col gap-2 fixed top-0 left-0 h-full w-64 border-r surface px-4 py-6">
         <Link href="/learn" className="flex items-center gap-2 px-2 mb-6">
           <Mascot size={40} />
           <span className="text-2xl font-extrabold text-feather tracking-tight">
