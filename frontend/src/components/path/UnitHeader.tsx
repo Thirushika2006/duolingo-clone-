@@ -1,9 +1,9 @@
 "use client";
 
 import type { Unit } from "@/lib/types";
+import { toast } from "@/lib/toast";
 
 export function UnitHeader({ unit }: { unit: Unit }) {
-  // Slightly darker shade of the unit color for the 3D bottom edge.
   return (
     <div
       className="flex items-center justify-between rounded-2xl px-5 py-4 text-white shadow-[0_4px_0_rgba(0,0,0,0.15)]"
@@ -11,11 +11,17 @@ export function UnitHeader({ unit }: { unit: Unit }) {
     >
       <div>
         <p className="text-xs font-bold uppercase tracking-wide opacity-90">
-          Unit {unit.order_index + 1}
+          Section 1, Unit {unit.order_index + 1}
         </p>
         <h2 className="text-lg font-extrabold">{unit.title}</h2>
       </div>
-      <span className="text-2xl">📘</span>
+      <button
+        onClick={() => toast("Guidebook coming soon", { emoji: "📘" })}
+        className="flex items-center gap-2 rounded-xl bg-black/15 hover:bg-black/25 px-3 py-2 font-bold uppercase text-sm transition-colors"
+      >
+        <span className="text-base">📖</span>
+        Guidebook
+      </button>
     </div>
   );
 }

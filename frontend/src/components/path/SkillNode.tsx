@@ -24,8 +24,9 @@ export function SkillNode({ skill, offset }: { skill: Skill; offset: number }) {
   const face = completed
     ? "bg-bee border-bee-dark"
     : locked
-    ? "bg-swan border-[#cfcfcf]"
+    ? "border-[color:var(--node-locked-edge)]"
     : "bg-feather border-feather-dark";
+  const lockedStyle = locked ? { background: "var(--node-locked)" } : undefined;
 
   function handleClick() {
     if (locked) return;
@@ -38,8 +39,27 @@ export function SkillNode({ skill, offset }: { skill: Skill; offset: number }) {
 
   return (
     <div className="relative flex flex-col items-center" style={{ marginLeft: offset }}>
+      {/* "START" bubble floats ABOVE the active node with a downward pointer */}
+      {skill.is_active && !open && (
+        <motion.div
+          initial={{ y: 0 }}
+          animate={{ y: [0, -5, 0] }}
+          transition={{ repeat: Infinity, duration: 1.4 }}
+          className="relative mb-2 px-4 py-1.5 rounded-xl bg-white dark:bg-[#1b2b33] border-2 border-swan dark:border-[#37464f] text-feather text-sm font-extrabold uppercase shadow-md"
+        >
+          Start
+          <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-white dark:bg-[#1b2b33] border-r-2 border-b-2 border-swan dark:border-[#37464f]" />
+        </motion.div>
+      )}
+
       {/* progress ring wraps non-locked, non-completed nodes */}
       <div className="relative">
+        {/* platform base shadow the node sits on */}
+        <span
+          className="absolute left-1/2 -translate-x-1/2 bottom-[-6px] w-[76px] h-5 rounded-[50%]"
+          style={{ background: "var(--node-base)" }}
+        />
+
         {!locked && !completed && skill.total_lessons > 0 && (
           <div className="absolute -inset-2 flex items-center justify-center">
             <CircularProgress
@@ -48,7 +68,7 @@ export function SkillNode({ skill, offset }: { skill: Skill; offset: number }) {
               size={88}
               stroke={7}
               color="#FFC800"
-              track="rgba(0,0,0,0.08)"
+              track="var(--node-base)"
             />
           </div>
         )}
@@ -56,17 +76,17 @@ export function SkillNode({ skill, offset }: { skill: Skill; offset: number }) {
         <motion.button
           onClick={handleClick}
           whileTap={{ scale: 0.92 }}
+          style={lockedStyle}
           className={[
             "relative w-[72px] h-[64px] rounded-[40%] flex items-center justify-center",
             "border-b-[6px] active:border-b-0 active:translate-y-[4px] transition-all",
-            "shadow-[0_4px_0_rgba(0,0,0,0.06)]",
             face,
             locked ? "cursor-default" : "cursor-pointer",
           ].join(" ")}
           aria-label={skill.title}
         >
           {locked ? (
-            <LockIcon width={28} height={28} className="text-white/90" />
+            <LockIcon width={28} height={28} className="text-black/30 dark:text-white/40" />
           ) : completed ? (
             <CrownIcon width={34} height={34} />
           ) : skill.is_active ? (
@@ -76,18 +96,6 @@ export function SkillNode({ skill, offset }: { skill: Skill; offset: number }) {
           )}
         </motion.button>
       </div>
-
-      {/* "START" bounce bubble on the active node */}
-      {skill.is_active && !open && (
-        <motion.div
-          initial={{ y: 0 }}
-          animate={{ y: [0, -6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.4 }}
-          className="mt-2 px-3 py-1 rounded-xl bg-white dark:bg-[#1b2b33] border-2 border-swan dark:border-[#37464f] text-feather text-xs font-extrabold uppercase shadow"
-        >
-          Start
-        </motion.div>
-      )}
 
       {/* popover with start button */}
       <AnimatePresence>

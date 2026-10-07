@@ -40,7 +40,7 @@ export default function LearnPage() {
       ))}
 
       <div className="flex flex-col items-center gap-2 py-8 text-muted">
-        <Mascot size={72} />
+        <Mascot size={72} animated />
         <p className="font-bold">More units coming soon!</p>
       </div>
     </div>

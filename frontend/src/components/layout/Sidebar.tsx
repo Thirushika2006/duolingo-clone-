@@ -6,11 +6,18 @@ import { Mascot } from "@/components/Mascot";
 
 const NAV = [
   { href: "/learn", label: "Learn", glyph: "🏠" },
-  { href: "/leaderboard", label: "Leaderboards", glyph: "🏆" },
+  { href: "/sounds", label: "Sounds", glyph: "👄" },
+  { href: "/leaderboard", label: "Leaderboards", glyph: "🛡️" },
+  { href: "/quests", label: "Quests", glyph: "🗝️" },
+  { href: "/shop", label: "Shop", glyph: "🛍️" },
   { href: "/profile", label: "Profile", glyph: "👤" },
-  { href: "/shop", label: "Shop", glyph: "🛒" },
-  { href: "/settings", label: "Settings", glyph: "⚙️" },
+  { href: "/settings", label: "More", glyph: "⚙️" },
 ];
+
+// Mobile bottom bar shows a focused subset to avoid crowding.
+const MOBILE_NAV = NAV.filter((n) =>
+  ["/learn", "/leaderboard", "/quests", "/shop", "/profile"].includes(n.href)
+);
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -46,7 +53,7 @@ export function Sidebar() {
 
       {/* Mobile: bottom tab bar */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 flex justify-around border-t surface py-2">
-        {NAV.map((item) => {
+        {MOBILE_NAV.map((item) => {
           const active = pathname.startsWith(item.href);
           return (
             <Link

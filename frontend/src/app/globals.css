@@ -38,6 +38,9 @@
   --border-card: #e5e5e5;
   --text-body: #4b4b4b;
   --text-muted: #777777;
+  --node-locked: #e5e5e5;
+  --node-locked-edge: #cfcfcf;
+  --node-base: rgba(0, 0, 0, 0.06);
 }
 .dark {
   --bg-page: #131f24;
@@ -45,6 +48,9 @@
   --border-card: #37464f;
   --text-body: #f1f7fb;
   --text-muted: #8fa4ae;
+  --node-locked: #37464f;
+  --node-locked-edge: #2b373d;
+  --node-base: rgba(255, 255, 255, 0.07);
 }
 
 html,

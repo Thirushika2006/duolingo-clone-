@@ -13,6 +13,22 @@ export function RightRail({ user }: { user: UserStats }) {
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Super promo (mocked) */}
+      <section className="rounded-2xl p-4 border-2 border-beetle/40 bg-gradient-to-br from-beetle/15 to-macaw/10">
+        <p className="font-extrabold text-beetle-dark uppercase text-sm tracking-wide">
+          Super Lingo
+        </p>
+        <p className="text-sm text-body my-1">
+          No ads, unlimited hearts, and more.
+        </p>
+        <button
+          onClick={() => toast("In-app purchases are mocked in this demo", { emoji: "💎" })}
+          className="mt-1 w-full rounded-xl bg-beetle text-white font-extrabold uppercase text-sm py-2 border-b-4 border-beetle-dark active:border-b-0 active:translate-y-[3px] transition-all"
+        >
+          Try 1 week free
+        </button>
+      </section>
+
       {/* Daily goal */}
       <section className="surface border rounded-2xl p-4">
         <h3 className="font-extrabold text-body mb-3">Daily goal</h3>
