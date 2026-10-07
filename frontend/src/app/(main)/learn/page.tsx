@@ -2,8 +2,11 @@
 
 import { usePath } from "@/lib/hooks";
 import { UnitHeader } from "@/components/path/UnitHeader";
+import { UnitDivider } from "@/components/path/UnitDivider";
 import { SkillNode, nodeOffset, skillKind } from "@/components/path/SkillNode";
 import { Mascot } from "@/components/Mascot";
+import { Bee } from "@/components/Bee";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 export default function LearnPage() {
   const { data, isLoading, isError } = usePath();
@@ -31,15 +34,18 @@ export default function LearnPage() {
       {data.units.map((unit, unitIndex) => (
         <section key={unit.id} className="flex flex-col gap-6">
           <UnitHeader unit={unit} />
+          <UnitDivider label={unit.title} />
           <div className="relative flex flex-col items-center gap-6 py-2">
-            {/* Mascot sits beside the path on the first unit, like Duolingo. */}
+            {/* Mascot + buzzing bees beside the path (original art, not Duo). */}
             {unitIndex === 0 && (
-              <div className="absolute right-0 sm:right-4 top-[150px] flex flex-col items-center pointer-events-none">
+              <div className="absolute right-0 sm:right-2 top-[140px] flex flex-col items-center pointer-events-none">
+                <Bee size={24} className="self-start ml-2 mb-1" drift={14} />
                 <Mascot size={96} animated />
                 <span
                   className="w-20 h-5 -mt-3 rounded-[50%]"
                   style={{ background: "var(--node-base)" }}
                 />
+                <Bee size={18} className="self-end mr-2 -mt-10" drift={8} />
               </div>
             )}
             {unit.skills.map((skill, i) => (
@@ -59,6 +65,8 @@ export default function LearnPage() {
         <Mascot size={72} animated />
         <p className="font-bold">More units coming soon!</p>
       </div>
+
+      <ScrollToTop />
     </div>
   );
 }
