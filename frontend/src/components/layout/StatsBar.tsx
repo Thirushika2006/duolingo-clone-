@@ -21,10 +21,7 @@ export function StatsBar({
     <div className="flex items-center gap-4 sm:gap-5">
       <CourseSwitcher flag={flag} courseTitle={courseTitle} />
 
-      <div className="flex items-center gap-1.5 font-bold text-fox" title="Day streak">
-        <FlameIcon width={26} height={26} />
-        <span>{user.streak}</span>
-      </div>
+      <StreakMenu streak={user.streak} week={user.week_activity} />
 
       <div className="flex items-center gap-1.5 font-bold text-macaw" title="Gems">
         <GemIcon width={24} height={24} />
@@ -39,6 +36,76 @@ export function StatsBar({
         <HeartIcon width={24} height={24} />
         <span>{user.hearts}</span>
       </Link>
+    </div>
+  );
+}
+
+const DAY_LETTERS = ["S", "M", "T", "W", "T", "F", "S"];
+
+function StreakMenu({ streak, week }: { streak: number; week: boolean[] }) {
+  const [open, setOpen] = useState(false);
+  const todayIdx = new Date().getDay(); // 0 = Sunday
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex items-center gap-1.5 font-bold text-fox"
+        title="Day streak"
+      >
+        <FlameIcon width={26} height={26} />
+        <span>{streak}</span>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              className="absolute right-0 mt-2 w-72 surface border rounded-2xl shadow-xl z-40 p-4"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <p className={`text-xl font-extrabold ${streak > 0 ? "text-fox" : "text-muted"}`}>
+                    {streak} day streak
+                  </p>
+                  <p className="text-sm text-muted">
+                    {streak > 0
+                      ? "Keep it going — practice today!"
+                      : "Do a lesson today to start a new streak!"}
+                  </p>
+                </div>
+                <FlameIcon width={40} height={40} className={streak > 0 ? "" : "opacity-40 grayscale"} />
+              </div>
+
+              {/* weekly calendar */}
+              <div className="flex justify-between rounded-xl bg-black/[0.04] dark:bg-white/5 p-2">
+                {DAY_LETTERS.map((d, i) => (
+                  <div key={i} className="flex flex-col items-center gap-1 w-8">
+                    <span
+                      className={`text-xs font-extrabold ${i === todayIdx ? "text-fox" : "text-muted"}`}
+                    >
+                      {d}
+                    </span>
+                    <span
+                      className={[
+                        "w-7 h-7 rounded-full flex items-center justify-center text-sm",
+                        week[i]
+                          ? "bg-fox text-white"
+                          : "bg-black/10 dark:bg-white/10 text-transparent",
+                      ].join(" ")}
+                    >
+                      {week[i] ? "🔥" : ""}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

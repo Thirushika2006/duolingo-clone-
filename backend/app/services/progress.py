@@ -38,8 +38,13 @@ def build_user_stats(db: Session, user: User) -> dict:
         )
     ).all()
     active_dates = [r[0] for r in rows]
+    active_set = set(active_dates)
     streak = streak_svc.current_streak(active_dates, today)
     xp_today = streak_svc.xp_today([(r[0], r[1]) for r in rows], today)
+
+    # Current week's activity, Sunday-first (matches the streak-calendar UI).
+    sunday = today - dt.timedelta(days=(today.weekday() + 1) % 7)
+    week_activity = [(sunday + dt.timedelta(days=i)) in active_set for i in range(7)]
 
     return {
         "id": user.id,
@@ -55,6 +60,7 @@ def build_user_stats(db: Session, user: User) -> dict:
         "daily_goal_xp": user.daily_goal_xp,
         "xp_today": xp_today,
         "daily_goal_met": streak_svc.daily_goal_met(xp_today, user.daily_goal_xp),
+        "week_activity": week_activity,
     }
 
 

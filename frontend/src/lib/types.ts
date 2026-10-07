@@ -23,6 +23,7 @@ export interface UserStats {
   daily_goal_xp: number;
   xp_today: number;
   daily_goal_met: boolean;
+  week_activity: boolean[];
 }
 
 export interface Skill {

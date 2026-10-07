@@ -24,6 +24,7 @@ class UserStats(BaseModel):
     daily_goal_xp: int
     xp_today: int
     daily_goal_met: bool
+    week_activity: list[bool]  # Sun..Sat for the current week; True = practiced
 
 
 # --------------------------------------------------------------------------- #
