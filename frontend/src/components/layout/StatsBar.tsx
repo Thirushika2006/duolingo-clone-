@@ -1,11 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { UserStats } from "@/lib/types";
-import { FlameIcon, GemIcon, HeartIcon } from "@/components/Icons";
+import { FlameIcon, GemIcon, HeartIcon, HeartEmptyIcon } from "@/components/Icons";
 import { toast } from "@/lib/toast";
+import { useRefillHearts } from "@/lib/hooks";
 
 // The compact streak / gems / hearts cluster shown at the top of app pages.
 export function StatsBar({
@@ -22,20 +23,135 @@ export function StatsBar({
       <CourseSwitcher flag={flag} courseTitle={courseTitle} />
 
       <StreakMenu streak={user.streak} week={user.week_activity} />
+      <GemsMenu gems={user.gems} />
+      <HeartsMenu user={user} />
+    </div>
+  );
+}
 
-      <div className="flex items-center gap-1.5 font-bold text-macaw" title="Gems">
+// Shared popover shell so all four top-bar menus align and animate the same way.
+function Dropdown({
+  open,
+  onClose,
+  children,
+  width = "w-72",
+}: {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  width?: string;
+}) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-30" onClick={onClose} />
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            className={`absolute right-0 mt-2 ${width} surface border rounded-2xl shadow-xl z-40 p-4`}
+          >
+            {children}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function GemsMenu({ gems }: { gems: number }) {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex items-center gap-1.5 font-bold text-macaw"
+        title="Gems"
+      >
         <GemIcon width={24} height={24} />
-        <span>{user.gems}</span>
-      </div>
+        <span>{gems}</span>
+      </button>
+      <Dropdown open={open} onClose={() => setOpen(false)}>
+        <div className="flex items-center gap-3">
+          <GemIcon width={54} height={54} />
+          <div>
+            <p className="text-lg font-extrabold text-body">Gems</p>
+            <p className="text-sm text-muted">You have {gems} gems</p>
+            <button
+              onClick={() => {
+                setOpen(false);
+                router.push("/shop");
+              }}
+              className="text-macaw font-extrabold text-sm uppercase mt-1"
+            >
+              Go to shop
+            </button>
+          </div>
+        </div>
+      </Dropdown>
+    </div>
+  );
+}
 
-      <Link
-        href="/shop"
+function HeartsMenu({ user }: { user: UserStats }) {
+  const [open, setOpen] = useState(false);
+  const refill = useRefillHearts();
+  const full = user.hearts >= user.max_hearts;
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-1.5 font-bold text-cardinal"
         title="Hearts"
       >
         <HeartIcon width={24} height={24} />
         <span>{user.hearts}</span>
-      </Link>
+      </button>
+      <Dropdown open={open} onClose={() => setOpen(false)}>
+        <p className="text-lg font-extrabold text-body text-center mb-3">Hearts</p>
+        <div className="flex justify-center gap-1.5 mb-2">
+          {Array.from({ length: user.max_hearts }).map((_, i) =>
+            i < user.hearts ? (
+              <HeartIcon key={i} width={28} height={28} />
+            ) : (
+              <HeartEmptyIcon key={i} width={28} height={28} />
+            )
+          )}
+        </div>
+        <p className="text-center font-extrabold text-body">
+          {full ? "You have full hearts" : `${user.hearts} hearts left`}
+        </p>
+        <p className="text-center text-sm text-muted mb-3">
+          {full ? "Keep on learning" : `Next heart in ${user.minutes_to_next_heart} min`}
+        </p>
+
+        <button
+          onClick={() => toast("Unlimited hearts is mocked in this demo", { emoji: "💖" })}
+          className="w-full flex items-center justify-between border-2 border-swan dark:border-[#37464f] rounded-xl px-4 py-3 mb-2 hover:bg-black/[0.03] dark:hover:bg-white/5"
+        >
+          <span className="font-extrabold text-body">♾️ Unlimited Hearts</span>
+          <span className="font-extrabold text-beetle text-sm uppercase">Free trial</span>
+        </button>
+        <button
+          disabled={full || refill.isPending}
+          onClick={() =>
+            refill.mutate(undefined, {
+              onSuccess: () => {
+                toast("Hearts refilled!", { emoji: "❤️", variant: "success" });
+                setOpen(false);
+              },
+            })
+          }
+          className="w-full flex items-center justify-between border-2 border-swan dark:border-[#37464f] rounded-xl px-4 py-3 hover:bg-black/[0.03] dark:hover:bg-white/5 disabled:opacity-50"
+        >
+          <span className="font-extrabold text-body">❤️ Refill Hearts</span>
+          <span className="flex items-center gap-1 font-extrabold text-muted text-sm">
+            <GemIcon width={16} height={16} /> 350
+          </span>
+        </button>
+      </Dropdown>
     </div>
   );
 }
