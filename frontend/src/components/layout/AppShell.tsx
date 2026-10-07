@@ -33,7 +33,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 reached (so the footer is reachable) while the path keeps going.
                 The negative-ish sticky top = viewport height minus the rail's
                 approximate height produces exactly that behaviour. */}
-            <div className="hidden xl:block w-[26rem] shrink-0 self-start sticky top-[calc(100vh-46rem)] py-2">
+            <div className="hidden xl:block w-[27rem] shrink-0 self-start sticky top-[calc(100vh-48rem)] py-2">
               {data && <RightRail user={data.user} />}
             </div>
           </div>

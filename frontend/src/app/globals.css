@@ -57,9 +57,10 @@ html,
 body {
   height: 100%;
 }
-/* Slightly larger base so text/cards read at Duolingo's roomier scale. */
+/* Larger base so text/cards read at Duolingo's roomier scale (rem-based
+   widths/padding scale with this too). */
 html {
-  font-size: 17px;
+  font-size: 18px;
 }
 body {
   background: var(--bg-page);

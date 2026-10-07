@@ -33,8 +33,9 @@ export function RightRail({ user }: { user: UserStats }) {
         </p>
         <Button
           variant="info"
+          size="lg"
           full
-          className="mt-2"
+          className="mt-3"
           onClick={() => toast("Super is mocked in this demo", { emoji: "💜" })}
         >
           Try 1 week free
