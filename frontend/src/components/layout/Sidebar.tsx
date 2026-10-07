@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Mascot } from "@/components/Mascot";
+import { toast } from "@/lib/toast";
 
 const NAV = [
   { href: "/learn", label: "Learn", glyph: "🏠" },
@@ -11,13 +14,21 @@ const NAV = [
   { href: "/quests", label: "Quests", glyph: "🗝️" },
   { href: "/shop", label: "Shop", glyph: "🛍️" },
   { href: "/profile", label: "Profile", glyph: "👤" },
-  { href: "/settings", label: "More", glyph: "⚙️" },
 ];
 
 // Mobile bottom bar shows a focused subset to avoid crowding.
 const MOBILE_NAV = NAV.filter((n) =>
   ["/learn", "/leaderboard", "/quests", "/shop", "/profile"].includes(n.href)
 );
+
+function navClass(active: boolean) {
+  return [
+    "flex items-center gap-4 px-4 py-3 rounded-xl font-bold uppercase text-sm tracking-wide border-2 transition-colors w-full",
+    active
+      ? "bg-macaw/10 border-macaw/40 text-macaw"
+      : "border-transparent text-body hover:bg-black/[0.04] dark:hover:bg-white/5",
+  ].join(" ");
+}
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -31,24 +42,13 @@ export function Sidebar() {
             lingo
           </span>
         </Link>
-        {NAV.map((item) => {
-          const active = pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={[
-                "flex items-center gap-4 px-4 py-3 rounded-xl font-bold uppercase text-sm tracking-wide border-2 transition-colors",
-                active
-                  ? "bg-macaw/10 border-macaw/40 text-macaw"
-                  : "border-transparent text-body hover:bg-black/[0.04] dark:hover:bg-white/5",
-              ].join(" ")}
-            >
-              <span className="text-xl">{item.glyph}</span>
-              {item.label}
-            </Link>
-          );
-        })}
+        {NAV.map((item) => (
+          <Link key={item.href} href={item.href} className={navClass(pathname.startsWith(item.href))}>
+            <span className="text-xl">{item.glyph}</span>
+            {item.label}
+          </Link>
+        ))}
+        <MoreMenu active={pathname.startsWith("/settings")} />
       </aside>
 
       {/* Mobile: bottom tab bar */}
@@ -71,5 +71,75 @@ export function Sidebar() {
         })}
       </nav>
     </>
+  );
+}
+
+function MoreMenu({ active }: { active: boolean }) {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const soon = (what: string) => () => {
+    setOpen(false);
+    toast(`${what} — coming soon`, { emoji: "🔜" });
+  };
+
+  return (
+    <div className="relative mt-auto">
+      <button onClick={() => setOpen((o) => !o)} className={navClass(active || open)}>
+        <span className="text-xl">•••</span>
+        More
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, x: -8, scale: 0.97 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              className="absolute bottom-0 left-full ml-2 w-64 surface border rounded-2xl shadow-xl z-40 overflow-hidden"
+            >
+              <div className="p-2 border-b border-[var(--border-card)]">
+                <MenuRow glyph="🧪" label="Language Test" onClick={soon("Language Test")} />
+                <MenuRow glyph="🎧" label="Podcast" onClick={soon("Podcast")} />
+              </div>
+              <div className="p-2">
+                <MenuRow
+                  glyph="⚙️"
+                  label="Settings"
+                  onClick={() => {
+                    setOpen(false);
+                    router.push("/settings");
+                  }}
+                />
+                <MenuRow glyph="❓" label="Help" onClick={soon("Help")} />
+                <MenuRow glyph="🚪" label="Log out" onClick={soon("Log out")} />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function MenuRow({
+  glyph,
+  label,
+  onClick,
+}: {
+  glyph: string;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold uppercase text-sm tracking-wide text-body hover:bg-black/[0.04] dark:hover:bg-white/5"
+    >
+      <span className="text-lg">{glyph}</span>
+      {label}
+    </button>
   );
 }

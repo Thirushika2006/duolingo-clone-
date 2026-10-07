@@ -123,9 +123,9 @@ export function SkillNode({
           aria-label={skill.title}
         >
           {completed ? (
-            <CrownIcon width={34} height={34} />
+            <CrownIcon width={42} height={42} />
           ) : (
-            <KindIcon kind={kind} size={34} />
+            <KindIcon kind={kind} size={42} />
           )}
         </motion.button>
       </div>
