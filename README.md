@@ -117,6 +117,33 @@ leaderboard = SELECT users ORDER BY total_xp DESC   (no table of its own)
 
 ---
 
+## API Overview
+
+Base URL `http://localhost:8000`. Interactive docs (OpenAPI/Swagger) at `/docs`.
+There is no auth — all routes act on the default learner (`user_id = 1`).
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| `GET`  | `/api/path` | Full learning path (units → skills) with the user's stats, lock/unlock states, crown levels, and progress rings |
+| `GET`  | `/api/lessons/{id}` | A lesson's exercises (correct answers stripped out) |
+| `POST` | `/api/lessons/{id}/check` | Validate one answer server-side; deducts a heart on a miss. Body: `{exercise_id, answer}` → `{correct, hearts, out_of_hearts, correct_answer}` |
+| `POST` | `/api/lessons/{id}/complete` | Award XP, advance the skill crown, log daily activity, unlock achievements. Body: `{mistakes}` |
+| `GET`  | `/api/profile` | Learner stats + achievements with progress |
+| `GET`  | `/api/leaderboard` | All users ranked by total XP |
+| `GET`  | `/api/hearts` | Current hearts (with regen applied) + minutes to next |
+| `POST` | `/api/hearts/refill` | Mocked practice/refill — restore hearts to full |
+| `POST` | `/api/debug/advance-day` | Simulate a day passing, to test streak/heart logic |
+
+**Example — checking an answer**
+```bash
+curl -X POST http://localhost:8000/api/lessons/1/check \
+  -H "Content-Type: application/json" \
+  -d '{"exercise_id": 1, "answer": 0}'
+# -> {"correct": true, "hearts": 5, "out_of_hearts": false, "correct_answer": null}
+```
+
+---
+
 ## Setup
 
 Requirements: **Node.js 18+** and **Python 3.11+** (developed on Node 24 / Python 3.14).

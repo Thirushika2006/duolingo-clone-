@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { UserStats } from "@/lib/types";
-import { FlameIcon, GemIcon, HeartIcon, HeartEmptyIcon } from "@/components/Icons";
+import { BoltIcon, FlameIcon, GemIcon, HeartIcon, HeartEmptyIcon } from "@/components/Icons";
 import { Flag } from "@/components/Flag";
 import { toast } from "@/lib/toast";
 import { useRefillHearts } from "@/lib/hooks";
@@ -50,6 +50,12 @@ export function StatsBar({
   return (
     <div className="flex items-center gap-4 sm:gap-5">
       <CourseSwitcher flag={flag} courseTitle={courseTitle} />
+
+      <div className="flex items-center gap-1.5 font-bold text-bee-dark" title="Total XP">
+        <BoltIcon width={24} height={24} />
+        <span>{user.total_xp}</span>
+      </div>
+
       <StreakMenu streak={user.streak} week={user.week_activity} />
       <GemsMenu gems={user.gems} />
       <HeartsMenu user={user} />
