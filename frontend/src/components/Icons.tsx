@@ -63,6 +63,24 @@ export function CrownIcon(props: IconProps) {
   );
 }
 
+export function BookIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M4 4h6a2 2 0 012 2v14a2 2 0 00-2-2H4V4z" fill="currentColor" opacity="0.95" />
+      <path d="M20 4h-6a2 2 0 00-2 2v14a2 2 0 012-2h6V4z" fill="currentColor" opacity="0.75" />
+      <path d="M6 8h4M6 11h4M14 8h4M14 11h4" stroke="#1a8a2e" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function ArrowLeftIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function CheckIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>

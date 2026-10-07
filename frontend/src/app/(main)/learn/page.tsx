@@ -28,10 +28,20 @@ export default function LearnPage() {
 
   return (
     <div className="max-w-xl mx-auto flex flex-col gap-10 pt-2">
-      {data.units.map((unit) => (
+      {data.units.map((unit, unitIndex) => (
         <section key={unit.id} className="flex flex-col gap-6">
           <UnitHeader unit={unit} />
-          <div className="flex flex-col items-center gap-6 py-2">
+          <div className="relative flex flex-col items-center gap-6 py-2">
+            {/* Mascot sits beside the path on the first unit, like Duolingo. */}
+            {unitIndex === 0 && (
+              <div className="absolute right-0 sm:right-4 top-[150px] flex flex-col items-center pointer-events-none">
+                <Mascot size={96} animated />
+                <span
+                  className="w-20 h-5 -mt-3 rounded-[50%]"
+                  style={{ background: "var(--node-base)" }}
+                />
+              </div>
+            )}
             {unit.skills.map((skill, i) => (
               <SkillNode key={skill.id} skill={skill} offset={nodeOffset(i)} />
             ))}

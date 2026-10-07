@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { UserStats } from "@/lib/types";
 import { FlameIcon, GemIcon, HeartIcon, HeartEmptyIcon } from "@/components/Icons";
+import { Flag } from "@/components/Flag";
 import { toast } from "@/lib/toast";
 import { useRefillHearts } from "@/lib/hooks";
 
@@ -138,15 +139,15 @@ function CourseSwitcher({ flag, courseTitle }: { flag: string; courseTitle: stri
   return (
     <div className="relative" {...handlers}>
       <button
-        className="w-11 h-9 rounded-xl surface border flex items-center justify-center text-2xl hover:brightness-95"
+        className="w-11 h-9 rounded-xl surface border flex items-center justify-center hover:brightness-95"
         title={courseTitle}
       >
-        {flag}
+        <Flag flag={flag} width={28} />
       </button>
       <Dropdown open={open} width="w-64">
         <p className="pb-2 text-xs font-extrabold uppercase text-muted tracking-wide">My Courses</p>
         <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-macaw/10">
-          <span className="text-2xl">{flag}</span>
+          <Flag flag={flag} width={28} />
           <span className="font-bold text-macaw">{courseTitle}</span>
         </div>
         <button
