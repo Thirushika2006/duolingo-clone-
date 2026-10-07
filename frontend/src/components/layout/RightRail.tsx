@@ -2,6 +2,7 @@
 
 import type { UserStats } from "@/lib/types";
 import { useAdvanceDay, useRefillHearts } from "@/lib/hooks";
+import { toast } from "@/lib/toast";
 import { Button } from "@/components/ui/Button";
 import { CircularProgress } from "@/components/ui/CircularProgress";
 import { BoltIcon, FlameIcon, HeartIcon } from "@/components/Icons";
@@ -65,7 +66,12 @@ export function RightRail({ user }: { user: UserStats }) {
             size="sm"
             variant="secondary"
             full
-            onClick={() => advanceDay.mutate()}
+            onClick={() =>
+              advanceDay.mutate(undefined, {
+                onSuccess: (d) =>
+                  toast(`Day advanced — streak is ${d.streak}`, { emoji: "⏭" }),
+              })
+            }
             disabled={advanceDay.isPending}
           >
             ⏭ Advance one day
@@ -74,7 +80,12 @@ export function RightRail({ user }: { user: UserStats }) {
             size="sm"
             variant="secondary"
             full
-            onClick={() => refill.mutate()}
+            onClick={() =>
+              refill.mutate(undefined, {
+                onSuccess: () =>
+                  toast("Hearts refilled!", { emoji: "❤️", variant: "success" }),
+              })
+            }
             disabled={refill.isPending || user.hearts >= user.max_hearts}
           >
             ❤️ Refill hearts

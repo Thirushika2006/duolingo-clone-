@@ -12,8 +12,11 @@ import { LessonComplete } from "@/components/lesson/LessonComplete";
 import { OutOfHearts } from "@/components/lesson/OutOfHearts";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Button } from "@/components/ui/Button";
+import { Confetti } from "@/components/ui/Confetti";
 import { HeartIcon } from "@/components/Icons";
 import { useLesson } from "@/lib/hooks";
+import { playComplete, playCorrect, playWrong } from "@/lib/sound";
+import { toast } from "@/lib/toast";
 
 function answerToText(a: unknown): string | null {
   if (a == null) return null;
@@ -68,13 +71,13 @@ export default function LessonPage() {
       setHearts(res.hearts);
       if (res.correct) {
         setStatus("correct");
+        playCorrect();
       } else {
         setStatus("wrong");
         setMistakes((m) => m + 1);
         setCorrectAnswer(answerToText(res.correct_answer));
-        if (res.out_of_hearts) {
-          // let the feedback bar show; Continue will surface the modal
-        }
+        playWrong();
+        // (out-of-hearts is surfaced on Continue via the next() handler)
       }
     } finally {
       setChecking(false);
@@ -101,6 +104,10 @@ export default function LessonPage() {
       qc.invalidateQueries({ queryKey: ["profile"] });
       qc.invalidateQueries({ queryKey: ["hearts"] });
       qc.invalidateQueries({ queryKey: ["leaderboard"] });
+      playComplete();
+      res.newly_unlocked_achievements.forEach((title) =>
+        toast(`Achievement unlocked: ${title}`, { emoji: "🏅", variant: "success" })
+      );
       setResult(res);
     }
   }
@@ -117,7 +124,10 @@ export default function LessonPage() {
 
   if (result) {
     return (
-      <LessonComplete result={result} onContinue={() => router.push("/learn")} />
+      <>
+        <Confetti />
+        <LessonComplete result={result} onContinue={() => router.push("/learn")} />
+      </>
     );
   }
 
