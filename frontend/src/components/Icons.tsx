@@ -98,6 +98,39 @@ export function LockIcon(props: IconProps) {
   );
 }
 
+export function ChestIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M4 9a2 2 0 012-2h12a2 2 0 012 2v2H4V9z" opacity="0.85" />
+      <rect x="4" y="11" width="16" height="8" rx="1.5" />
+      <rect x="10.5" y="9.5" width="3" height="5" rx="1" opacity="0.5" />
+      <circle cx="12" cy="12.5" r="1" opacity="0.4" />
+    </svg>
+  );
+}
+
+export function HeadphonesIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M4 15a8 8 0 0116 0" stroke="currentColor" strokeWidth="2.2" />
+      <rect x="3" y="13" width="4.5" height="7" rx="2" fill="currentColor" />
+      <rect x="16.5" y="13" width="4.5" height="7" rx="2" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function TrophyIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M7 3h10v5a5 5 0 01-10 0V3z" />
+      <path d="M5 4H3v2a3 3 0 003 3V7H5V4zM19 4h2v2a3 3 0 01-3 3V7h1V4z" />
+      <rect x="10.5" y="12" width="3" height="4" />
+      <rect x="8" y="18" width="8" height="2.5" rx="1.2" />
+      <rect x="9" y="16" width="6" height="2" rx="1" />
+    </svg>
+  );
+}
+
 export function StarIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>

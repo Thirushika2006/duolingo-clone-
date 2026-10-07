@@ -2,7 +2,7 @@
 
 import { usePath } from "@/lib/hooks";
 import { UnitHeader } from "@/components/path/UnitHeader";
-import { SkillNode, nodeOffset } from "@/components/path/SkillNode";
+import { SkillNode, nodeOffset, skillKind } from "@/components/path/SkillNode";
 import { Mascot } from "@/components/Mascot";
 
 export default function LearnPage() {
@@ -43,7 +43,13 @@ export default function LearnPage() {
               </div>
             )}
             {unit.skills.map((skill, i) => (
-              <SkillNode key={skill.id} skill={skill} offset={nodeOffset(i)} />
+              <SkillNode
+                key={skill.id}
+                skill={skill}
+                offset={nodeOffset(i)}
+                kind={skillKind(i, i === unit.skills.length - 1)}
+                unitColor={unit.color}
+              />
             ))}
           </div>
         </section>
