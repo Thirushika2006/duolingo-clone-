@@ -23,7 +23,7 @@ const MOBILE_NAV = NAV.filter((n) =>
 
 function navClass(active: boolean) {
   return [
-    "flex items-center gap-4 px-4 py-3 rounded-xl font-bold uppercase text-sm tracking-wide border-2 transition-colors w-full",
+    "flex items-center gap-3 px-3 py-2 rounded-xl font-bold uppercase text-[13px] tracking-wide border-2 transition-colors w-full",
     active
       ? "bg-macaw/10 border-macaw/40 text-macaw"
       : "border-transparent text-body hover:bg-black/[0.04] dark:hover:bg-white/5",
@@ -36,10 +36,10 @@ export function Sidebar() {
     <>
       {/* Desktop: fixed left rail */}
       <aside className="hidden lg:flex flex-col gap-2 fixed top-0 left-0 h-full w-64 border-r surface px-4 py-6">
-        <Link href="/learn" className="flex items-center gap-2 px-2 mb-6">
-          <Mascot size={46} />
+        <Link href="/learn" className="flex items-center gap-2 px-2 mb-5">
+          <Mascot size={36} />
           <span
-            className="text-[30px] leading-none font-black text-feather lowercase"
+            className="text-[23px] leading-none font-black text-feather lowercase"
             style={{ letterSpacing: "-0.02em" }}
           >
             lingo
@@ -47,7 +47,7 @@ export function Sidebar() {
         </Link>
         {NAV.map((item) => (
           <Link key={item.href} href={item.href} className={navClass(pathname.startsWith(item.href))}>
-            <span className="text-xl">{item.glyph}</span>
+            <span className="text-lg">{item.glyph}</span>
             {item.label}
           </Link>
         ))}
@@ -139,9 +139,9 @@ function MenuRow({
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold uppercase text-sm tracking-wide text-body hover:bg-black/[0.04] dark:hover:bg-white/5"
+      className="w-full flex items-center gap-3 px-3 py-2 rounded-xl font-bold uppercase text-[13px] tracking-wide text-body hover:bg-black/[0.04] dark:hover:bg-white/5"
     >
-      <span className="text-lg">{glyph}</span>
+      <span className="text-base">{glyph}</span>
       {label}
     </button>
   );
