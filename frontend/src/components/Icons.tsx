@@ -89,6 +89,17 @@ export function CheckIcon(props: IconProps) {
   );
 }
 
+export function ShieldIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z" fill="#1CB0F6" />
+      <path d="M12 2l8 3v6c0 5-3.5 9-8 11V2z" fill="#1899D6" />
+      <rect x="9.5" y="10" width="5" height="5" rx="1" fill="#fff" />
+      <path d="M10.5 10V9a1.5 1.5 0 013 0v1" stroke="#fff" strokeWidth="1.3" fill="none" />
+    </svg>
+  );
+}
+
 export function LockIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
