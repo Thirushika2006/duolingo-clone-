@@ -18,7 +18,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* Top stats bar */}
           <header className="sticky top-0 z-30 flex justify-end lg:justify-between items-center py-4 page-bg">
             <span className="hidden lg:block" />
-            {data && <StatsBar user={data.user} flag={data.language_flag} />}
+            {data && (
+              <StatsBar
+                user={data.user}
+                flag={data.language_flag}
+                courseTitle={data.course_title}
+              />
+            )}
           </header>
 
           <div className="flex gap-8">
